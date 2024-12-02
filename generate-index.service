@@ -1,0 +1,12 @@
+[Unit]
+Description=Generate updated index 
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=webgen
+Group=webgen
+ExecStart=/var/lib/webgen/bin/generate_index
+WorkingDirectory=/var/lib/webgen
+RemainAfterExit=yes
