@@ -10,3 +10,6 @@ Group=webgen
 ExecStart=/var/lib/webgen/bin/generate_index
 WorkingDirectory=/var/lib/webgen
 RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
