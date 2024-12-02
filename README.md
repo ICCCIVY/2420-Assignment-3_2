@@ -187,8 +187,6 @@ Server 1:
 
 http://64.23.218.96/documents/
 
-![document](images/document2.png)
-
 12. Visit documents page
 
 http://24.144.71.24/documents/
@@ -199,7 +197,7 @@ In order to differentiate two server, I set up unique title for each.
 ![html](images/html1.png)
 
 The document page looks like this in the browser:
-
+![doc2](images/document2.png)
 ![doc1](images/document1.png)
 
 
