@@ -163,6 +163,7 @@ server {
     }
 }
 ```
+Ref: https://docs.nginx.com/nginx/admin-guide/web-server/serving-static-content/
 - Check syntax error
 ```
 sudo nginx -t
