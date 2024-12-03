@@ -129,7 +129,7 @@ sudo systemctl status generate-index.timer
 ```
 sudo vim /etc/nginx/nginx.conf
 ```
-![modify](images/modify.png)
+![modify](images/modify_nginx.png)
 
 2. Create a separate server block file
 
