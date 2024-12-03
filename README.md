@@ -1,8 +1,11 @@
 # 2420-Assignment-3_2
-## Task 1 Create two new digital ocean droplets
-1. Created two droplets on digital ocean:
+## Task 1 Create Two New Digital Ocean Droplets
+
+1. Create two droplets on digital ocean with the `web` tag:
+
 ![droplets](images/droplets.png)
-2. ssh into each droplets
+
+2. SSH into each droplets
 - web-server-1:
 ```
 ssh -i .ssh/2420assign1 arch@143.198.145.186
@@ -11,54 +14,60 @@ ssh -i .ssh/2420assign1 arch@143.198.145.186
 ```
 ssh -i .ssh/2420assign1 arch@64.23.218.96 
 ```
-## Task 2 Creat load balancer
-![load](images/load.png)
-  - The status show down because I have not start nginx yet.
+## Task 2 Create Load Balancer
+![balancer](images/balancer.png)
+  
+## Task 3 Clone the Updated Starter Code 
 
-## Task 3 Clone the updated starter code (the following command also ran in web-arch-1)
-1. Re-create the webgen user for each server using instruction from part 1.
+1. Re-create the webgen user for both server using instruction from part 1
 ```
 sudo useradd --system -d /var/lib/webgen -s /usr/bin/nologin webgen
 ```
 ```
 sudo chown -R webgen:webgen /var/lib/webgen
 ```
+2. Create required directory according to the instruction
+
 ```
 sudo mkdir -p /var/lib/webgen/bin
 ```
 ```
 sudo mkdir -p /var/lib/webgen/HTML
 ```
-Adding new directory documents
+
+3. Add new directory `documents`
 ```
 sudo mkdir -p /var/lib/webgen/documents
 ```
-2. Clone updated generate_index file
+
+4. Clone updated `generate_index` file
 ![clone](images/generate_index.png)
-3. Create file-one and file-two under documents directory. 
+
+5. Create  `file-one` and `file-two` under `documents` directory. 
 ```
 sudo vim file-one
 ```
 ```
 sudo vim file-two
 ```
-I put simple content inside these two files.
+- Put simple content inside these two files.
 ![content](images/content.png)
 
-4. Set correct ownership
+6. Set correct ownership
 ```
 sudo chown webgen:webgen /var/lib/webgen/documents/file-one
 ```
-5. Run the generate_index script to create index.html
+7. Run the `generate_index` script to create `index.html`
 ```
 sudo ./generate_index 
 ```
 ![index](images/index.png)
-6. Verify
+8. Verify directory structure
 ![tree](images/tree.png)
-7. Create the generate-index.service for both server. (I used the same script for part 1) 
+## Task 4 Configure Service File
+1. Create the `generate-index.service` for both server. (I used the same script from part 1) 
   - cd into `/etc/systemd/system/`
-  - Config service file
+  - Configure service file
   ```
   sudo vim generate-index.service
   ```
@@ -79,7 +88,7 @@ RemainAfterExit=yes
 [Install]
 WantedBy=multi-user.target
 ```
-
+- Enable and start the service
 ```
 sudo systemctl enable generate-index.service
 ```
@@ -89,7 +98,7 @@ sudo systemctl start generate-index.service
 ```
 sudo systemctl status generate-index.service
 ```
-Change ownership and permission
+- Change ownership and permission
 ```
 sudo chown -R webgen:webgen /var/lib/webgen
 ```
@@ -97,7 +106,7 @@ sudo chown -R webgen:webgen /var/lib/webgen
 sudo chmod -R 755 /var/lib/webgen
 ```
 ![](images/service.png)
-8. Create generate-index.timer
+2. Create `generate-index.timer` to automate `generate_index` daily:
 ```
 [Unit]
 Description=Run Generate Index Script Daily
@@ -109,7 +118,7 @@ Persistent=True
 [Install]
 WantedBy=timers.target
 ```
-  
+- Enable and start the timer: 
 ```
 sudo systemctl enable generate-index.timer
 ```
@@ -121,13 +130,16 @@ sudo systemctl status generate-index.timer
 ```
 ![timer](images/timer.png)
 
-9. Nginx
-- Modify nginx.conf to run as webgen
+## Task 5 Configure Nginx
+
+1. Modify `nginx.conf` to run as webgen
 ```
 sudo vim /etc/nginx/nginx.conf
 ```
 ![modify](images/modify.png)
-10. Create a Separate Server Block File
+
+2. Create a separate server block file
+
 - Create directory
 ```
 sudo mkdir -p /etc/nginx/sites-available 
@@ -166,6 +178,7 @@ sudo nginx -t
 ```
 sudo ln -s /etc/nginx/sites-available/webgen /etc/nginx/sites-enabled/
 ```
+- Enable and start `nginx`:
 ```
 sudo systemctl enable nginx.service
 ```
@@ -175,30 +188,35 @@ sudo systemctl start nginx.service
 ```
 sudo systemctl status nginx.service 
 ```
-11. Visit browser for using ip address for load balancer: http://24.144.71.24/
+## Testing 
 
-Server 2:
+1. Visit browser using ip address for load balancer: http://24.144.71.24/
+
+- Server 2:
 
 ![nginx](images/:.png)
 
-Server 1: 
+- Server 1: 
 
 ![/1](images/1:.png)
 
-http://64.23.218.96/documents/
 
-12. Visit documents page
 
-http://24.144.71.24/documents/
+2. Visit documents page:  http://24.144.71.24/documents/
 
-In order to differentiate two server, I set up unique title for each.
+- In order to differentiate two server, I set up unique title for each.
 
 ![html](images/html2.png)
 ![html](images/html1.png)
 
 The document page looks like this in the browser:
+
 ![doc2](images/document2.png)
+
 ![doc1](images/document1.png)
+
+
+
 
 
 
