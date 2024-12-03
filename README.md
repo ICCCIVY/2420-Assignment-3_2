@@ -98,13 +98,6 @@ sudo systemctl start generate-index.service
 ```
 sudo systemctl status generate-index.service
 ```
-- Change ownership and permission
-```
-sudo chown -R webgen:webgen /var/lib/webgen
-```
-```
-sudo chmod -R 755 /var/lib/webgen
-```
 ![](images/service.png)
 2. Create `generate-index.timer` to automate `generate_index` daily:
 ```
